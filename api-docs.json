@@ -1,0 +1,5462 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Apply Default Global SecurityScheme in springdoc-openapi",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://ai-prompt-service.staging.openeduhub.net",
+      "description": "Generated server url"
+    }
+  ],
+  "security": [
+    {
+      "X-API-KEY": []
+    },
+    {
+      "basicAuth": []
+    }
+  ],
+  "tags": [
+    {
+      "name": "AI Image Prompts",
+      "description": "AI generated images based on DALL E"
+    },
+    {
+      "name": "AI Profession Job Prompts",
+      "description": "AI generated jobs for professions based on ChatGPT and model text-davinci-003 "
+    },
+    {
+      "name": "AI Collection Prompts",
+      "description": "AI generated answers in context of the collection"
+    },
+    {
+      "name": "Widget Prompts",
+      "description": "Endpoint to control widget prompts"
+    },
+    {
+      "name": "AI Text Prompts",
+      "description": "AI generated text based on ChatGPT and model gpt-4o"
+    },
+    {
+      "name": "AI Profession Description Prompts",
+      "description": "AI generated profession descriptions based on ChatGPT and model gpt-4o"
+    },
+    {
+      "name": "Arge berufeNet",
+      "description": "Arge berufeNet crawled resources"
+    },
+    {
+      "name": "Kidra",
+      "description": "Kidra service endpoint"
+    },
+    {
+      "name": "Question Answers",
+      "description": "AI generated question answers storage endpoint"
+    }
+  ],
+  "paths": {
+    "/kidra/text-statistics": {
+      "post": {
+        "tags": [
+          "Kidra"
+        ],
+        "summary": "Compute text statistics on the given text",
+        "description": "Note: Only German language is supported right now.\n    \n    Parameters\n    ----------\n    text : str\n        The text to be analyzed.\n    reading_speed : float, optional\n        The reading speed in characters per minute to use as a base-line.\n        Default: 200\n    generate_embeddings : bool, optional\n        Whether to also generate a vectorized representation of the text using\n        word embeddings.\n        \n    \n    Returns\n    -------\n    flesch_ease : float or null\n        The readability score of the text,\n        according to the Flesch reading ease.\n        null if undefined (i.e. text is empty).\n    flesch_classification : str or null\n        Interpretation of the Flesch readability score,\n        from 'Sehr leicht' to 'Sehr schwer'.\n        null if undefined (i.e. text is empty).\n    wiener_index : float or null\n        The appropriate school grade of the text, based on its readability,\n        according to the Wiener index.\n        null if undefined (i.e. text is empty).\n    reading_time : float or null\n        The predicted time to read the text, in seconds.\n        This is adjusted for the readability of the text,\n        according to the following formula:\n        reading_speed / 2 * exp(log(4) * flesch_ease / 121.5).\n        Thus, reading speed is doubled at the maximum readability\n        (121.5) and halved at readability 0.\n        null if undefined (i.e. text is empty).\n    embeddings : list[float] or null\n        If ``generate_embeddings`` was set to `True`, this will be the\n        vectorized representation of the text. Otherwise, `null`.\n    version : str\n        The version of the text statistics service.",
+        "operationId": "text_stats_analyze_text_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/text-statistics-InputData"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/text-statistics-Result"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/text-statistics-HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/kidra/delete/text-statistics": {
+      "post": {
+        "tags": [
+          "Kidra deletion"
+        ],
+        "summary": "Delete cached data entry for: Compute text statistics on the given text",
+        "operationId": "text_stats_analyze_text_post-delete",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/text-statistics-InputData"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/text-statistics-Result"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/text-statistics-HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/kidra/topic-statistics": {
+      "post": {
+        "tags": [
+          "Kidra"
+        ],
+        "summary": "Counts",
+        "operationId": "counts_counts_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/topic-statistics-Input_Stats"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/topic-statistics-Output_Stats"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/topic-statistics-HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/kidra/delete/topic-statistics": {
+      "post": {
+        "tags": [
+          "Kidra deletion"
+        ],
+        "summary": "Delete cached data entry for: Counts",
+        "operationId": "counts_counts_post-delete",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/topic-statistics-Input_Stats"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/topic-statistics-Output_Stats"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/topic-statistics-HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/kidra/update-data": {
+      "post": {
+        "tags": [
+          "Kidra"
+        ],
+        "summary": "Update Data",
+        "operationId": "update_data_update_data_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/update-data-Input_Update"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/update-data-HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/kidra/delete/update-data": {
+      "post": {
+        "tags": [
+          "Kidra deletion"
+        ],
+        "summary": "Delete cached data entry for: Update Data",
+        "operationId": "update_data_update_data_post-delete",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/update-data-Input_Update"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/update-data-HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/kidra/text-extraction": {
+      "post": {
+        "tags": [
+          "Kidra"
+        ],
+        "summary": "Extract text from a given URL",
+        "description": "Extract text from a given URL\n\n    Parameters\n    ---------\n    url : str\n        The URL from which to extract text.\n    lang : str, optional\n        The ISO 639-1 code for the language of the text.\n        If set to 'auto', try to detect it instead.\n        Default: 'auto'.\n    preference : str, optional\n        Whether to prioritize precision, recall, or neither\n        when extracting the text.\n        Default: 'none'\n    method : \"simple\" or \"browser\"\n        Whether to get the content of the website naively, or to use a headless\n        browser in order to e.g. deal with JavaScript-heavy pages.\n\n    Returns\n    -------\n    text : str\n        The extracted text.\n    lang : str\n        If lang was set to 'auto', the detected language.\n        Otherwise, whatever lang was set to.\n    version : str\n        The version of the text extractor.",
+        "operationId": "from_url_from_url_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/text-extraction-Data"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/text-extraction-Result"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/text-extraction-HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/kidra/delete/text-extraction": {
+      "post": {
+        "tags": [
+          "Kidra deletion"
+        ],
+        "summary": "Delete cached data entry for: Extract text from a given URL",
+        "operationId": "from_url_from_url_post-delete",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/text-extraction-Data"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/text-extraction-Result"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/text-extraction-HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/kidra/bayesian-predictions": {
+      "post": {
+        "tags": [
+          "Kidra"
+        ],
+        "summary": "Predict the metadata fitting the given text.",
+        "description": "Note that all categories are not filtered out. Instead, they\n                are sorted by their mean predicted probability of being\n                relevant to the text.\n                \n                Parameters\n                ----------\n                text : str\n                    The text to be analyzed.\n                num_samples : int\n                    The number of samples to use in order to estimate the fit\n                    of each discipline. Higher numbers will result in less\n                    variance between calls, but take more time.\n                num_predictions : int\n                    The number of predicted disciplines (sorted by relevance)\n                    to return. This does not affect performance; it simply\n                    serves as an initial filtering tool.\n                interval_size : float (0, 1]\n                    The size of the credibility interval for the probability\n                    that a discipline is assigned to the given text.\n                    E.g. at 0.8, there is a probability of 80% that the\n                    predicted probability of the discipline belonging to the\n                    text is within the returned interval.\n\n                Returns\n                -------\n                predictions : dict[str, list[Prediction]]\n                    Map from predicted metadatum to predictions for this\n                    metadatum.\n                version : str\n                    The version of the prediction tool.\n\n                Prediction\n                ----------\n                id : str\n                    The URI of the category.\n                name : str\n                    The label of the category.\n                mean_prob : float [0, 1]\n                    The mean of the predicted probabilities that this category\n                    belongs to the given text.\n                median_prob : float [0, 1]\n                    The median of the above probabilities.\n                prob_interval : 2-tuple of floats in [0, 1]\n                    The credibility interval of the predicted probabilities\n                    above.",
+        "operationId": "predict_predict_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/bayesian-predictions-Prediction_Data"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/bayesian-predictions-Prediction_Result"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/bayesian-predictions-HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/kidra/delete/bayesian-predictions": {
+      "post": {
+        "tags": [
+          "Kidra deletion"
+        ],
+        "summary": "Delete cached data entry for: Predict the metadata fitting the given text.",
+        "operationId": "predict_predict_post-delete",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/bayesian-predictions-Prediction_Data"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/bayesian-predictions-Prediction_Result"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/bayesian-predictions-HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/kidra/disciplines": {
+      "post": {
+        "tags": [
+          "Kidra"
+        ],
+        "summary": "Predict the OpenEduHub disciplines of the given text",
+        "description": "Predict the OpenEduHub disciplines of the given text\n\n        Parameters\n        ----------\n        text : str\n            The text to be analyzed.\n\n        Returns\n        -------\n        disciplines : list of Discipline\n            The predicted disciplines of the text.\n            This contains the id of the discipline,\n            and a score from 0 to 1.\n        version : str\n            The version of the discipline predictor.",
+        "operationId": "predict_subjects_kidra_predict_subjects_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/disciplines-Data"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/disciplines-Result"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/disciplines-HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/kidra/delete/disciplines": {
+      "post": {
+        "tags": [
+          "Kidra deletion"
+        ],
+        "summary": "Delete cached data entry for: Predict the OpenEduHub disciplines of the given text",
+        "operationId": "predict_subjects_kidra_predict_subjects_post-delete",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/disciplines-Data"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/disciplines-Result"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/disciplines-HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/kidra/topic-assistant-keywords": {
+      "post": {
+        "tags": [
+          "Kidra"
+        ],
+        "summary": "Predict topics from the OpenEduHub topic tree, using keywords",
+        "description": "Predict topics from the OpenEduHub topic tree, using keywords\n\n        Parameters\n        ----------\n        text : str\n            The text to be analyzed.\n\n        Returns\n        -------\n        topics : list of Topic\n            The predicted topics from the topic tree.\n            Contains the following attributes:\n        \n            weight : int\n                The number of matches in the sub tree.\n            uri : str\n                The URI of the topic.\n            label : str, optional\n                The label of the topic.\n            match : str, optional\n                The keyword in the text that was associated with the topic.\n                If there are multiple, comma separated.\n        version : str\n            The version of the topic prediction tool.",
+        "operationId": "topics_flat_topics_flat_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/topic-assistant-keywords-Data"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/topic-assistant-keywords-Result"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/topic-assistant-keywords-HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/kidra/delete/topic-assistant-keywords": {
+      "post": {
+        "tags": [
+          "Kidra deletion"
+        ],
+        "summary": "Delete cached data entry for: Predict topics from the OpenEduHub topic tree, using keywords",
+        "operationId": "topics_flat_topics_flat_post-delete",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/topic-assistant-keywords-Data"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/topic-assistant-keywords-Result"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/topic-assistant-keywords-HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/kidra/topic-assistant-embeddings": {
+      "post": {
+        "tags": [
+          "Kidra"
+        ],
+        "summary": "Predict topics from the OpenEduHub topic tree, using text embeddings",
+        "description": "Predict topics from the OpenEduHub topic tree, using text embeddings\n\n        Parameters\n        ----------\n        text : str\n            The text to be analyzed.\n\n        Returns\n        -------\n        topics : list of Topic\n            The predicted topics from the topic tree.\n            Contains the following attributes:\n        \n            weight : int\n                The weight attributed to the sub tree.\n            uri : str\n                The URI of the topic.\n            label : str, optional\n                The label of the topic.\n            match : null\n                Irrelevant for this function.\n        version : str\n            The version of the topic prediction tool.",
+        "operationId": "topics2_flat_topics2_flat_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/topic-assistant-embeddings-Data"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/topic-assistant-embeddings-Result"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/topic-assistant-embeddings-HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/kidra/delete/topic-assistant-embeddings": {
+      "post": {
+        "tags": [
+          "Kidra deletion"
+        ],
+        "summary": "Delete cached data entry for: Predict topics from the OpenEduHub topic tree, using text embeddings",
+        "operationId": "topics2_flat_topics2_flat_post-delete",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/topic-assistant-embeddings-Data"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/topic-assistant-embeddings-Result"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/topic-assistant-embeddings-HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/kidra/link-wikipedia": {
+      "post": {
+        "tags": [
+          "Kidra"
+        ],
+        "summary": "Collect relevant Wikipedia articles for the given text",
+        "description": "Collect relevant Wikipedia articles for the given text\n\n        Parameters\n        ----------\n        text : str\n            The text to be analyzed.\n\n        Returns\n        -------\n        text : str\n            A modified version of the given text,\n            where matched phrases are replaced with hyperlinks to their\n            corresponding Wikipedia entry.\n        entities : list of Entity\n            All Wikipedia entries that were matched for the given text.\n            Contains the following attributes:\n\n            entity : str\n                The name of the entry.\n            start : int\n                The start position of the phrase that was matched to this entity.\n            end : int\n                The end position of the phrase that was matched to this entity.\n            score : float\n                The score (from 0 to 1) of the match.\n            categories : list of str\n                The German Wikipedia categories associated with this entity.\n        essentialCategories : list of str\n            A list of German Wikipedia categories that are shared between\n            multiple associated entities.\n        version : str\n            The version of the Wikipedia linking service.\n            Currently a placeholder.",
+        "operationId": "fun_link_wikipedia_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Data"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/kidra/delete/link-wikipedia": {
+      "post": {
+        "tags": [
+          "Kidra deletion"
+        ],
+        "summary": "Delete cached data entry for: Collect relevant Wikipedia articles for the given text",
+        "operationId": "fun_link_wikipedia_post-delete",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Data"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/qa/{sourceId}/{nodeId}": {
+      "get": {
+        "tags": [
+          "Question Answers"
+        ],
+        "summary": "Get QA Entries of a specific sourceId and nodeId",
+        "operationId": "getQAEntries",
+        "parameters": [
+          {
+            "name": "sourceId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "nodeId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Ok",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/QAEntry"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Question Answers"
+        ],
+        "summary": "Update QA Entries of a specific sourceId and nodeId",
+        "operationId": "updateQAEntries",
+        "parameters": [
+          {
+            "name": "sourceId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "nodeId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateQAEntriesRequestDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Ok"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Question Answers"
+        ],
+        "summary": "Create a new QANode",
+        "operationId": "createQANode",
+        "parameters": [
+          {
+            "name": "sourceId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "nodeId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateQANodeRequestDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Ok"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Question Answers"
+        ],
+        "summary": "Delete QA Node by sourceId and nodeId",
+        "operationId": "deleteQANodes",
+        "parameters": [
+          {
+            "name": "sourceId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "nodeId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Ok"
+          }
+        }
+      }
+    },
+    "/ai/prompt/text": {
+      "put": {
+        "tags": [
+          "AI Text Prompts"
+        ],
+        "summary": "Forces to prompt the ai service and updates the cached answer",
+        "operationId": "promptUpdate",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "string"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TextPromptEntity"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "AI Text Prompts"
+        ],
+        "summary": "Returns a cached AI prompt answer. If no answer was cached before a new one will be generated by the desired ai service",
+        "operationId": "prompt",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "string"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TextPromptEntity"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "AI Text Prompts"
+        ],
+        "summary": "Delete the cached prompt by the given id",
+        "operationId": "delete",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "string"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Ok"
+          }
+        }
+      }
+    },
+    "/ai/prompt/text/public/{widgetNodeId}/{contextNodeId}": {
+      "put": {
+        "tags": [
+          "AI Text Prompts"
+        ],
+        "summary": "Forces to prompt the ai service and updates the cached answer",
+        "operationId": "updatePublicPrompt",
+        "parameters": [
+          {
+            "name": "widgetNodeId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "contextNodeId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TextPromptEntity"
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      },
+      "post": {
+        "tags": [
+          "AI Text Prompts"
+        ],
+        "summary": "Returns a cached AI prompt answer. If no answer was cached before a new one will be generated by the desired ai service",
+        "operationId": "publicPrompt",
+        "parameters": [
+          {
+            "name": "widgetNodeId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "contextNodeId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TextPromptEntity"
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/ai/prompt/profession/profile": {
+      "put": {
+        "tags": [
+          "profession-profile-controller"
+        ],
+        "summary": "Forces to prompt the ai service and updates the cached answer",
+        "operationId": "promptUpdate_1",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "string"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProfessionProfileEntity"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "profession-profile-controller"
+        ],
+        "summary": "Returns a cached AI prompt answer. If no answer was cached before a new one will be generated by the desired ai service",
+        "operationId": "prompt_1",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "string"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProfessionProfileEntity"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "profession-profile-controller"
+        ],
+        "summary": "Delete the cached prompt by the given id",
+        "operationId": "delete_1",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "string"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Ok"
+          }
+        }
+      }
+    },
+    "/ai/prompt/profession/profile/public/{widgetNodeId}/{contextNodeId}": {
+      "put": {
+        "tags": [
+          "profession-profile-controller"
+        ],
+        "summary": "Forces to prompt the ai service and updates the cached answer",
+        "operationId": "updatePublicPrompt_1",
+        "parameters": [
+          {
+            "name": "widgetNodeId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "contextNodeId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProfessionProfileEntity"
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      },
+      "post": {
+        "tags": [
+          "profession-profile-controller"
+        ],
+        "summary": "Returns a cached AI prompt answer. If no answer was cached before a new one will be generated by the desired ai service",
+        "operationId": "publicPrompt_1",
+        "parameters": [
+          {
+            "name": "widgetNodeId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "contextNodeId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProfessionProfileEntity"
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/ai/prompt/profession/jobs": {
+      "put": {
+        "tags": [
+          "AI Profession Job Prompts"
+        ],
+        "summary": "Forces to prompt the ai service and updates the cached answer",
+        "operationId": "promptUpdate_2",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "string"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProfessionsJobEntity"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "AI Profession Job Prompts"
+        ],
+        "summary": "Returns a cached AI prompt answer. If no answer was cached before a new one will be generated by the desired ai service",
+        "operationId": "prompt_2",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "string"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProfessionsJobEntity"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "AI Profession Job Prompts"
+        ],
+        "summary": "Delete the cached prompt by the given id",
+        "operationId": "delete_2",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "string"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Ok"
+          }
+        }
+      }
+    },
+    "/ai/prompt/profession/jobs/public/{widgetNodeId}/{contextNodeId}": {
+      "put": {
+        "tags": [
+          "AI Profession Job Prompts"
+        ],
+        "summary": "Forces to prompt the ai service and updates the cached answer",
+        "operationId": "updatePublicPrompt_2",
+        "parameters": [
+          {
+            "name": "widgetNodeId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "contextNodeId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProfessionsJobEntity"
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      },
+      "post": {
+        "tags": [
+          "AI Profession Job Prompts"
+        ],
+        "summary": "Returns a cached AI prompt answer. If no answer was cached before a new one will be generated by the desired ai service",
+        "operationId": "publicPrompt_2",
+        "parameters": [
+          {
+            "name": "widgetNodeId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "contextNodeId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProfessionsJobEntity"
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/ai/prompt/profession/description": {
+      "put": {
+        "tags": [
+          "AI Profession Description Prompts"
+        ],
+        "summary": "Forces to prompt the ai service and updates the cached answer",
+        "operationId": "promptUpdate_3",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "string"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProfessionDescriptionEntity"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "AI Profession Description Prompts"
+        ],
+        "summary": "Returns a cached AI prompt answer. If no answer was cached before a new one will be generated by the desired ai service",
+        "operationId": "prompt_3",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "string"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProfessionDescriptionEntity"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "AI Profession Description Prompts"
+        ],
+        "summary": "Delete the cached prompt by the given id",
+        "operationId": "delete_3",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "string"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Ok"
+          }
+        }
+      }
+    },
+    "/ai/prompt/profession/description/public/{widgetNodeId}/{contextNodeId}": {
+      "put": {
+        "tags": [
+          "AI Profession Description Prompts"
+        ],
+        "summary": "Forces to prompt the ai service and updates the cached answer",
+        "operationId": "updatePublicPrompt_3",
+        "parameters": [
+          {
+            "name": "widgetNodeId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "contextNodeId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProfessionDescriptionEntity"
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      },
+      "post": {
+        "tags": [
+          "AI Profession Description Prompts"
+        ],
+        "summary": "Returns a cached AI prompt answer. If no answer was cached before a new one will be generated by the desired ai service",
+        "operationId": "publicPrompt_3",
+        "parameters": [
+          {
+            "name": "widgetNodeId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "contextNodeId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProfessionDescriptionEntity"
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/ai/prompt/image": {
+      "put": {
+        "tags": [
+          "AI Image Prompts"
+        ],
+        "summary": "Forces to prompt the ai service and updates the cached answer",
+        "operationId": "promptUpdate_4",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "string"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ImagePromptEntity"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "AI Image Prompts"
+        ],
+        "summary": "Returns a cached AI prompt answer. If no answer was cached before a new one will be generated by the desired ai service",
+        "operationId": "prompt_4",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "string"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ImagePromptEntity"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "AI Image Prompts"
+        ],
+        "summary": "Delete the cached prompt by the given id",
+        "operationId": "delete_4",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "string"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Ok"
+          }
+        }
+      }
+    },
+    "/ai/prompt/image/public/{widgetNodeId}/{contextNodeId}": {
+      "put": {
+        "tags": [
+          "AI Image Prompts"
+        ],
+        "summary": "Forces to prompt the ai service and updates the cached answer",
+        "operationId": "updatePublicPrompt_4",
+        "parameters": [
+          {
+            "name": "widgetNodeId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "contextNodeId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ImagePromptEntity"
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      },
+      "post": {
+        "tags": [
+          "AI Image Prompts"
+        ],
+        "summary": "Returns a cached AI prompt answer. If no answer was cached before a new one will be generated by the desired ai service",
+        "operationId": "publicPrompt_4",
+        "parameters": [
+          {
+            "name": "widgetNodeId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "contextNodeId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ImagePromptEntity"
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/admin/deactivateApiKey{name}": {
+      "put": {
+        "tags": [
+          "admin-controller"
+        ],
+        "operationId": "deactivateApiKey",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "OK"
+          }
+        },
+        "security": [
+          {
+            "basicAuth": []
+          }
+        ]
+      }
+    },
+    "/admin/activateApiKey/{name}": {
+      "put": {
+        "tags": [
+          "admin-controller"
+        ],
+        "operationId": "activateApiKey",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "OK"
+          }
+        },
+        "security": [
+          {
+            "basicAuth": []
+          }
+        ]
+      }
+    },
+    "/data/arge/berufenet": {
+      "get": {
+        "tags": [
+          "Arge berufeNet"
+        ],
+        "summary": "Endpoint to retrieve data from the cached Arge Berufenet dataset",
+        "operationId": "getData",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "page number",
+            "schema": {
+              "default": 0
+            }
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "description": "page size",
+            "schema": {
+              "default": 20
+            }
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "description": "sort specification",
+            "schema": {}
+          }
+        ],
+        "responses": {
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "updated Arge Berufenet Dataset",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ArgeBerufeNetResponsePage"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Arge berufeNet"
+        ],
+        "summary": "Endpoint to add or update data to the Arge Berufenet dataset",
+        "operationId": "updateData",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/ArgeBerufeNetRequest"
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "updated Arge Berufenet Dataset",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ArgeBerufeNetRequest"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/chat": {
+      "post": {
+        "tags": [
+          "chat-controller"
+        ],
+        "operationId": "post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/AssistantMessage"
+                    },
+                    {
+                      "$ref": "#/components/schemas/FunctionMessage"
+                    },
+                    {
+                      "$ref": "#/components/schemas/SystemMessage"
+                    },
+                    {
+                      "$ref": "#/components/schemas/ToolMessage"
+                    },
+                    {
+                      "$ref": "#/components/schemas/UserMessage"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/AssistantMessage"
+                    },
+                    {
+                      "$ref": "#/components/schemas/FunctionMessage"
+                    },
+                    {
+                      "$ref": "#/components/schemas/SystemMessage"
+                    },
+                    {
+                      "$ref": "#/components/schemas/ToolMessage"
+                    },
+                    {
+                      "$ref": "#/components/schemas/UserMessage"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/ai/prompt/collection/public/{collectionId}": {
+      "post": {
+        "tags": [
+          "AI Collection Prompts"
+        ],
+        "operationId": "getPredefinedPromptForCollection",
+        "parameters": [
+          {
+            "name": "collectionId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "mode",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "Summary",
+                "QuestionAnswer"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Ok",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/admin/createApiKey": {
+      "post": {
+        "tags": [
+          "admin-controller"
+        ],
+        "operationId": "createApiKey",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateApiKeyRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "basicAuth": []
+          }
+        ]
+      }
+    },
+    "/widget/public": {
+      "get": {
+        "tags": [
+          "Widget Prompts"
+        ],
+        "operationId": "getDefaultWidgetPrompts",
+        "responses": {
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "$ref": "#/components/schemas/WidgetObject"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/qa/{sourceId}/{nodeId}/node": {
+      "get": {
+        "tags": [
+          "Question Answers"
+        ],
+        "summary": "Get QA Node of a specific sourceId and nodeId",
+        "operationId": "getQANodes",
+        "parameters": [
+          {
+            "name": "sourceId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "nodeId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Ok",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/QANode"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/qa/{nodeId}": {
+      "get": {
+        "tags": [
+          "Question Answers"
+        ],
+        "summary": "Get all QA Entries of a specific nodeId",
+        "operationId": "getQAEntriesOf",
+        "parameters": [
+          {
+            "name": "nodeId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Ok",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/QAEntry"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/qa/nodes/{nodeId}": {
+      "get": {
+        "tags": [
+          "Question Answers"
+        ],
+        "summary": "Get all QA Nodes of a specific nodeId",
+        "operationId": "getAllQANodes",
+        "parameters": [
+          {
+            "name": "nodeId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Ok",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/QANode"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/_ping": {
+      "get": {
+        "tags": [
+          "ping-controller"
+        ],
+        "operationId": "ping",
+        "responses": {
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "OK"
+          }
+        },
+        "security": []
+      }
+    },
+    "/qa/{nodeId}/node": {
+      "delete": {
+        "tags": [
+          "Question Answers"
+        ],
+        "summary": "Delete all QA Nodes by nodeId",
+        "operationId": "deleteAllQANodes",
+        "parameters": [
+          {
+            "name": "nodeId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Ok"
+          }
+        }
+      }
+    },
+    "/admin/deleteApiKey/{name}": {
+      "delete": {
+        "tags": [
+          "admin-controller"
+        ],
+        "operationId": "deleteApiKey",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "OK"
+          }
+        },
+        "security": [
+          {
+            "basicAuth": []
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Data": {
+        "type": "object",
+        "properties": {
+          "text": {
+            "type": "string",
+            "title": "Text"
+          }
+        },
+        "required": [
+          "text"
+        ]
+      },
+      "Entity": {
+        "type": "object",
+        "properties": {
+          "entity": {
+            "type": "string",
+            "title": "Entity"
+          },
+          "start": {
+            "type": "integer",
+            "title": "Start"
+          },
+          "end": {
+            "type": "integer",
+            "title": "End"
+          },
+          "score": {
+            "type": "number",
+            "title": "Score"
+          },
+          "categories": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "title": "Categories"
+          }
+        },
+        "required": [
+          "categories",
+          "end",
+          "entity",
+          "score",
+          "start"
+        ],
+        "title": "Entity"
+      },
+      "HTTPValidationError": {
+        "type": "object",
+        "properties": {
+          "detail": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "title": "Detail"
+          }
+        }
+      },
+      "Result": {
+        "type": "object",
+        "properties": {
+          "text": {
+            "type": "string",
+            "title": "Text"
+          },
+          "entities": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Entity"
+            },
+            "title": "Entities"
+          },
+          "essentialCategories": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "title": "Essentialcategories"
+          },
+          "version": {
+            "type": "string",
+            "default": "0.1.0",
+            "title": "Version"
+          }
+        },
+        "required": [
+          "entities",
+          "essentialCategories",
+          "text"
+        ]
+      },
+      "ValidationError": {
+        "type": "object",
+        "properties": {
+          "loc": {
+            "type": "array",
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "title": "Location"
+          },
+          "msg": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type"
+          }
+        },
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ]
+      },
+      "text-statistics-HTTPValidationError": {
+        "type": "object",
+        "properties": {
+          "detail": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/text-statistics-ValidationError"
+            },
+            "title": "Detail"
+          }
+        }
+      },
+      "text-statistics-InputData": {
+        "type": "object",
+        "properties": {
+          "text": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Text"
+          },
+          "reading_speed": {
+            "type": "number",
+            "default": 200.0,
+            "minimum": 1.0,
+            "title": "Reading Speed"
+          },
+          "generate_embeddings": {
+            "type": "boolean",
+            "default": false,
+            "title": "Generate Embeddings"
+          }
+        },
+        "required": [
+          "text"
+        ],
+        "title": "InputData"
+      },
+      "text-statistics-Result": {
+        "type": "object",
+        "properties": {
+          "flesch_ease": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Flesch Ease"
+          },
+          "classification": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "Sehr leicht",
+                  "Leicht",
+                  "Mittelleicht",
+                  "Mittel",
+                  "Mittelschwer",
+                  "Schwer",
+                  "Sehr schwer"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Classification"
+          },
+          "wiener_index": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Wiener Index"
+          },
+          "reading_time": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Reading Time"
+          },
+          "embeddings": {
+            "anyOf": [
+              {
+                "type": "array",
+                "items": {
+                  "type": "number"
+                },
+                "maxItems": 300,
+                "minItems": 300
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Embeddings"
+          },
+          "version": {
+            "type": "string",
+            "default": "1.1.0",
+            "title": "Version"
+          }
+        },
+        "required": [
+          "classification",
+          "embeddings",
+          "flesch_ease",
+          "reading_time",
+          "wiener_index"
+        ]
+      },
+      "text-statistics-ValidationError": {
+        "type": "object",
+        "properties": {
+          "loc": {
+            "type": "array",
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "title": "Location"
+          },
+          "msg": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type"
+          }
+        },
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ]
+      },
+      "topic-statistics-Category_Count": {
+        "type": "object",
+        "properties": {
+          "total": {
+            "type": "integer",
+            "title": "Total"
+          },
+          "editorially_confirmed": {
+            "type": "integer",
+            "title": "Editorially Confirmed"
+          },
+          "category": {
+            "type": "string",
+            "title": "Category"
+          }
+        },
+        "required": [
+          "category",
+          "editorially_confirmed",
+          "total"
+        ]
+      },
+      "topic-statistics-Count": {
+        "type": "object",
+        "properties": {
+          "total": {
+            "type": "integer",
+            "title": "Total"
+          },
+          "editorially_confirmed": {
+            "type": "integer",
+            "title": "Editorially Confirmed"
+          }
+        },
+        "required": [
+          "editorially_confirmed",
+          "total"
+        ]
+      },
+      "topic-statistics-Field_Counts": {
+        "type": "object",
+        "properties": {
+          "field": {
+            "type": "string",
+            "title": "Field"
+          },
+          "counts": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/topic-statistics-Category_Count"
+            },
+            "title": "Counts"
+          }
+        },
+        "required": [
+          "counts",
+          "field"
+        ]
+      },
+      "topic-statistics-Fields": {
+        "type": "string",
+        "description": "A selection of commonly used metadata fields.",
+        "enum": [
+          "properties.ccm:educationaltypicalagerange",
+          "properties.ccm:oeh_course_coursemode",
+          "collections.properties.cclom:location",
+          "collections.properties.cm:title",
+          "collections.properties.sys:node-uuid",
+          "properties.ccm:competence",
+          "properties.cclom:general_description",
+          "properties.cclom:duration",
+          "properties.ccm:educationalcontext",
+          "properties.ccm:fskRating",
+          "nodeRef.id",
+          "properties.ccm:educationalintendedenduserrole",
+          "properties.cclom:classification_keyword",
+          "properties.cclom:general_keyword",
+          "properties.cclom:general_language",
+          "properties.ccm:oeh_lrt",
+          "properties.ccm:taxonid",
+          "properties.ccm:oeh_taxonid_university",
+          "properties.ccm:oeh_ai_test_data",
+          "properties.cclom:title",
+          "properties.ccm:curriculum",
+          "properties.ccm:wwwurl"
+        ],
+        "title": "Fields"
+      },
+      "topic-statistics-HTTPValidationError": {
+        "type": "object",
+        "properties": {
+          "detail": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/topic-statistics-ValidationError"
+            },
+            "title": "Detail"
+          }
+        }
+      },
+      "topic-statistics-Input_Stats": {
+        "type": "object",
+        "properties": {
+          "topic_uri": {
+            "type": "string",
+            "title": "Topic Uri"
+          },
+          "topic_url": {
+            "type": "string",
+            "title": "Topic Url"
+          },
+          "group_by_fields": {
+            "anyOf": [
+              {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/topic-statistics-Fields"
+                }
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "examples": [
+              [
+                "properties.ccm:taxonid"
+              ]
+            ],
+            "title": "Group By Fields"
+          }
+        },
+        "required": [
+          "topic_uri",
+          "topic_url"
+        ]
+      },
+      "topic-statistics-Input_Update": {
+        "type": "object",
+        "properties": {
+          "skip_if_exists": {
+            "type": "boolean",
+            "default": true,
+            "title": "Skip If Exists"
+          }
+        }
+      },
+      "topic-statistics-Output_Stats": {
+        "type": "object",
+        "properties": {
+          "total": {
+            "$ref": "#/components/schemas/topic-statistics-Count"
+          },
+          "by_fields": {
+            "anyOf": [
+              {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/topic-statistics-Field_Counts"
+                }
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "By Fields"
+          }
+        },
+        "required": [
+          "total"
+        ]
+      },
+      "topic-statistics-ValidationError": {
+        "type": "object",
+        "properties": {
+          "loc": {
+            "type": "array",
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "title": "Location"
+          },
+          "msg": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type"
+          }
+        },
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ]
+      },
+      "update-data-Category_Count": {
+        "type": "object",
+        "properties": {
+          "total": {
+            "type": "integer",
+            "title": "Total"
+          },
+          "editorially_confirmed": {
+            "type": "integer",
+            "title": "Editorially Confirmed"
+          },
+          "category": {
+            "type": "string",
+            "title": "Category"
+          }
+        },
+        "required": [
+          "category",
+          "editorially_confirmed",
+          "total"
+        ]
+      },
+      "update-data-Count": {
+        "type": "object",
+        "properties": {
+          "total": {
+            "type": "integer",
+            "title": "Total"
+          },
+          "editorially_confirmed": {
+            "type": "integer",
+            "title": "Editorially Confirmed"
+          }
+        },
+        "required": [
+          "editorially_confirmed",
+          "total"
+        ]
+      },
+      "update-data-Field_Counts": {
+        "type": "object",
+        "properties": {
+          "field": {
+            "type": "string",
+            "title": "Field"
+          },
+          "counts": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/update-data-Category_Count"
+            },
+            "title": "Counts"
+          }
+        },
+        "required": [
+          "counts",
+          "field"
+        ]
+      },
+      "update-data-Fields": {
+        "type": "string",
+        "description": "A selection of commonly used metadata fields.",
+        "enum": [
+          "properties.ccm:educationaltypicalagerange",
+          "properties.ccm:oeh_course_coursemode",
+          "collections.properties.cclom:location",
+          "collections.properties.cm:title",
+          "collections.properties.sys:node-uuid",
+          "properties.ccm:competence",
+          "properties.cclom:general_description",
+          "properties.cclom:duration",
+          "properties.ccm:educationalcontext",
+          "properties.ccm:fskRating",
+          "nodeRef.id",
+          "properties.ccm:educationalintendedenduserrole",
+          "properties.cclom:classification_keyword",
+          "properties.cclom:general_keyword",
+          "properties.cclom:general_language",
+          "properties.ccm:oeh_lrt",
+          "properties.ccm:taxonid",
+          "properties.ccm:oeh_taxonid_university",
+          "properties.ccm:oeh_ai_test_data",
+          "properties.cclom:title",
+          "properties.ccm:curriculum",
+          "properties.ccm:wwwurl"
+        ],
+        "title": "Fields"
+      },
+      "update-data-HTTPValidationError": {
+        "type": "object",
+        "properties": {
+          "detail": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/update-data-ValidationError"
+            },
+            "title": "Detail"
+          }
+        }
+      },
+      "update-data-Input_Stats": {
+        "type": "object",
+        "properties": {
+          "topic_uri": {
+            "type": "string",
+            "title": "Topic Uri"
+          },
+          "topic_url": {
+            "type": "string",
+            "title": "Topic Url"
+          },
+          "group_by_fields": {
+            "anyOf": [
+              {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/update-data-Fields"
+                }
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "examples": [
+              [
+                "properties.ccm:taxonid"
+              ]
+            ],
+            "title": "Group By Fields"
+          }
+        },
+        "required": [
+          "topic_uri",
+          "topic_url"
+        ]
+      },
+      "update-data-Input_Update": {
+        "type": "object",
+        "properties": {
+          "skip_if_exists": {
+            "type": "boolean",
+            "default": true,
+            "title": "Skip If Exists"
+          }
+        }
+      },
+      "update-data-Output_Stats": {
+        "type": "object",
+        "properties": {
+          "total": {
+            "$ref": "#/components/schemas/update-data-Count"
+          },
+          "by_fields": {
+            "anyOf": [
+              {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/update-data-Field_Counts"
+                }
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "By Fields"
+          }
+        },
+        "required": [
+          "total"
+        ]
+      },
+      "update-data-ValidationError": {
+        "type": "object",
+        "properties": {
+          "loc": {
+            "type": "array",
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "title": "Location"
+          },
+          "msg": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type"
+          }
+        },
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ]
+      },
+      "text-extraction-Data": {
+        "type": "object",
+        "properties": {
+          "url": {
+            "type": "string",
+            "title": "Url"
+          },
+          "method": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/text-extraction-Methods"
+              }
+            ],
+            "default": "simple"
+          },
+          "browser_location": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "examples": [
+              null
+            ],
+            "title": "Browser Location"
+          },
+          "lang": {
+            "type": "string",
+            "default": "auto",
+            "title": "Lang"
+          },
+          "preference": {
+            "type": "string",
+            "default": "none",
+            "enum": [
+              "none",
+              "recall",
+              "precision"
+            ],
+            "title": "Preference"
+          }
+        },
+        "required": [
+          "url"
+        ]
+      },
+      "text-extraction-HTTPValidationError": {
+        "type": "object",
+        "properties": {
+          "detail": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/text-extraction-ValidationError"
+            },
+            "title": "Detail"
+          }
+        }
+      },
+      "text-extraction-Methods": {
+        "type": "string",
+        "enum": [
+          "simple",
+          "browser"
+        ],
+        "title": "Methods"
+      },
+      "text-extraction-Result": {
+        "type": "object",
+        "properties": {
+          "text": {
+            "type": "string",
+            "title": "Text"
+          },
+          "lang": {
+            "type": "string",
+            "title": "Lang"
+          },
+          "version": {
+            "type": "string",
+            "default": "0.2.0",
+            "title": "Version"
+          }
+        },
+        "required": [
+          "lang",
+          "text"
+        ]
+      },
+      "text-extraction-ValidationError": {
+        "type": "object",
+        "properties": {
+          "loc": {
+            "type": "array",
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "title": "Location"
+          },
+          "msg": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type"
+          }
+        },
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ]
+      },
+      "bayesian-predictions-HTTPValidationError": {
+        "type": "object",
+        "properties": {
+          "detail": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/bayesian-predictions-ValidationError"
+            },
+            "title": "Detail"
+          }
+        }
+      },
+      "bayesian-predictions-Prediction_Data": {
+        "type": "object",
+        "description": "Input to be used for prediction.",
+        "properties": {
+          "text": {
+            "type": "string",
+            "title": "Text"
+          },
+          "num_samples": {
+            "type": "integer",
+            "default": 500,
+            "exclusiveMinimum": 1.0,
+            "maximum": 100000.0,
+            "title": "Num Samples"
+          },
+          "num_predictions": {
+            "type": "integer",
+            "default": 10,
+            "exclusiveMinimum": 0.0,
+            "title": "Num Predictions"
+          },
+          "interval_size": {
+            "type": "number",
+            "default": 0.8,
+            "exclusiveMaximum": 1.0,
+            "exclusiveMinimum": 0.0,
+            "title": "Interval Size"
+          }
+        },
+        "required": [
+          "text"
+        ],
+        "title": "Prediction_Data"
+      },
+      "bayesian-predictions-Prediction_Result": {
+        "type": "object",
+        "description": "The output of the prediction.",
+        "properties": {
+          "predictions": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/bayesian-predictions-Prediction_Score"
+              }
+            },
+            "title": "Predictions"
+          },
+          "version": {
+            "type": "string",
+            "default": "0.2.4",
+            "title": "Version"
+          }
+        },
+        "required": [
+          "predictions"
+        ],
+        "title": "Prediction_Result"
+      },
+      "bayesian-predictions-Prediction_Score": {
+        "type": "object",
+        "description": "An individual prediction for a particular target.",
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "mean_prob": {
+            "type": "number",
+            "title": "Mean Prob"
+          },
+          "median_prob": {
+            "type": "number",
+            "title": "Median Prob"
+          },
+          "baseline_diff": {
+            "type": "number",
+            "title": "Baseline Diff"
+          },
+          "prob_interval": {
+            "type": "array",
+            "examples": [
+              [
+                0.1,
+                0.5
+              ]
+            ],
+            "items": {
+              "type": "number"
+            },
+            "title": "Prob Interval"
+          }
+        },
+        "required": [
+          "baseline_diff",
+          "id",
+          "mean_prob",
+          "median_prob",
+          "name",
+          "prob_interval"
+        ],
+        "title": "Prediction_Score"
+      },
+      "bayesian-predictions-ValidationError": {
+        "type": "object",
+        "properties": {
+          "loc": {
+            "type": "array",
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "title": "Location"
+          },
+          "msg": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type"
+          }
+        },
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ]
+      },
+      "disciplines-Data": {
+        "type": "object",
+        "properties": {
+          "text": {
+            "type": "string",
+            "title": "Text"
+          }
+        },
+        "required": [
+          "text"
+        ]
+      },
+      "disciplines-Discipline": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "score": {
+            "type": "number",
+            "title": "Score"
+          }
+        },
+        "required": [
+          "id",
+          "score"
+        ],
+        "title": "Discipline"
+      },
+      "disciplines-HTTPValidationError": {
+        "type": "object",
+        "properties": {
+          "detail": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/disciplines-ValidationError"
+            },
+            "title": "Detail"
+          }
+        }
+      },
+      "disciplines-Result": {
+        "type": "object",
+        "properties": {
+          "disciplines": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/disciplines-Discipline"
+            },
+            "title": "Disciplines"
+          },
+          "version": {
+            "type": "string",
+            "default": "0.1.0",
+            "title": "Version"
+          }
+        },
+        "required": [
+          "disciplines"
+        ]
+      },
+      "disciplines-ValidationError": {
+        "type": "object",
+        "properties": {
+          "loc": {
+            "type": "array",
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "title": "Location"
+          },
+          "msg": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type"
+          }
+        },
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ]
+      },
+      "topic-assistant-keywords-Data": {
+        "type": "object",
+        "properties": {
+          "text": {
+            "type": "string",
+            "title": "Text"
+          }
+        },
+        "required": [
+          "text"
+        ]
+      },
+      "topic-assistant-keywords-HTTPValidationError": {
+        "type": "object",
+        "properties": {
+          "detail": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/topic-assistant-keywords-ValidationError"
+            },
+            "title": "Detail"
+          }
+        }
+      },
+      "topic-assistant-keywords-Result": {
+        "type": "object",
+        "properties": {
+          "topics": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/topic-assistant-keywords-Topic"
+            },
+            "title": "Topics"
+          },
+          "version": {
+            "type": "string",
+            "default": "0.1.4",
+            "title": "Version"
+          }
+        },
+        "required": [
+          "topics"
+        ]
+      },
+      "topic-assistant-keywords-Topic": {
+        "type": "object",
+        "properties": {
+          "weight": {
+            "type": "number",
+            "title": "Weight"
+          },
+          "uri": {
+            "type": "string",
+            "title": "Uri"
+          },
+          "label": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Label"
+          },
+          "match": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Match"
+          }
+        },
+        "required": [
+          "uri",
+          "weight"
+        ]
+      },
+      "topic-assistant-keywords-ValidationError": {
+        "type": "object",
+        "properties": {
+          "loc": {
+            "type": "array",
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "title": "Location"
+          },
+          "msg": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type"
+          }
+        },
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ]
+      },
+      "topic-assistant-embeddings-Data": {
+        "type": "object",
+        "properties": {
+          "text": {
+            "type": "string",
+            "title": "Text"
+          }
+        },
+        "required": [
+          "text"
+        ]
+      },
+      "topic-assistant-embeddings-HTTPValidationError": {
+        "type": "object",
+        "properties": {
+          "detail": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/topic-assistant-embeddings-ValidationError"
+            },
+            "title": "Detail"
+          }
+        }
+      },
+      "topic-assistant-embeddings-Result": {
+        "type": "object",
+        "properties": {
+          "topics": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/topic-assistant-embeddings-Topic"
+            },
+            "title": "Topics"
+          },
+          "version": {
+            "type": "string",
+            "default": "0.1.4",
+            "title": "Version"
+          }
+        },
+        "required": [
+          "topics"
+        ]
+      },
+      "topic-assistant-embeddings-Topic": {
+        "type": "object",
+        "properties": {
+          "weight": {
+            "type": "number",
+            "title": "Weight"
+          },
+          "uri": {
+            "type": "string",
+            "title": "Uri"
+          },
+          "label": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Label"
+          },
+          "match": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Match"
+          }
+        },
+        "required": [
+          "uri",
+          "weight"
+        ]
+      },
+      "topic-assistant-embeddings-ValidationError": {
+        "type": "object",
+        "properties": {
+          "loc": {
+            "type": "array",
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "title": "Location"
+          },
+          "msg": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type"
+          }
+        },
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ]
+      },
+      "QAEntry": {
+        "type": "object",
+        "properties": {
+          "question": {
+            "type": "string"
+          },
+          "answer": {
+            "type": "string"
+          },
+          "reviewed": {
+            "type": "boolean"
+          },
+          "edited": {
+            "type": "boolean"
+          },
+          "lastReviewed": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "reviewedBy": {
+            "type": "string"
+          }
+        }
+      },
+      "UpdateQAEntriesRequestDTO": {
+        "type": "object",
+        "properties": {
+          "qaEntries": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/QAEntry"
+            }
+          }
+        }
+      },
+      "TextPromptEntity": {
+        "type": "object",
+        "properties": {
+          "prompt": {
+            "type": "string"
+          },
+          "modified": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "responses": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "Binary": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "format": "byte"
+          },
+          "data": {
+            "type": "string",
+            "format": "byte"
+          }
+        }
+      },
+      "ProfessionProfileEntity": {
+        "type": "object",
+        "properties": {
+          "prompt": {
+            "type": "string"
+          },
+          "modified": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "profiles": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProfessionProfileInfo"
+            }
+          }
+        }
+      },
+      "ProfessionProfileInfo": {
+        "type": "object",
+        "properties": {
+          "thumbnail": {
+            "$ref": "#/components/schemas/Binary"
+          },
+          "readTime": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "url": {
+            "type": "string"
+          },
+          "descriptionShort": {
+            "type": "string"
+          },
+          "professionGroup": {
+            "type": "string"
+          },
+          "professionType": {
+            "type": "string"
+          }
+        }
+      },
+      "ProfessionsJobEntity": {
+        "type": "object",
+        "properties": {
+          "prompt": {
+            "type": "string"
+          },
+          "modified": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "jobSuggestions": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "ProfessionDescriptionEntity": {
+        "type": "object",
+        "properties": {
+          "prompt": {
+            "type": "string"
+          },
+          "modified": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "description": {
+            "type": "string"
+          }
+        }
+      },
+      "ImagePromptEntity": {
+        "type": "object",
+        "properties": {
+          "prompt": {
+            "type": "string"
+          },
+          "modified": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "image": {
+            "$ref": "#/components/schemas/Binary"
+          }
+        }
+      },
+      "CreateQAEntryRequestDTO": {
+        "type": "object",
+        "properties": {
+          "question": {
+            "type": "string"
+          },
+          "answer": {
+            "type": "string"
+          }
+        }
+      },
+      "CreateQANodeRequestDTO": {
+        "type": "object",
+        "properties": {
+          "usedText": {
+            "type": "string"
+          },
+          "entries": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CreateQAEntryRequestDTO"
+            }
+          }
+        }
+      },
+      "ArgeBerufeNetRequest": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string"
+          },
+          "description_short": {
+            "type": "string"
+          },
+          "profession_group": {
+            "type": "string"
+          },
+          "profession_type": {
+            "type": "string"
+          }
+        }
+      },
+      "AssistantMessage": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/ChatMessage"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "content": {
+                "type": "string"
+              },
+              "refusal": {
+                "type": "string"
+              },
+              "audio": {
+                "$ref": "#/components/schemas/AssistantMessageAudio"
+              },
+              "tool_calls": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/ChatToolCall"
+                }
+              },
+              "function_call": {
+                "$ref": "#/components/schemas/ChatFunctionCall",
+                "deprecated": true
+              }
+            }
+          }
+        ]
+      },
+      "AssistantMessageAudio": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "transcript": {
+            "type": "string"
+          },
+          "data": {
+            "type": "string"
+          },
+          "expires_at": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "ChatFunctionCall": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "arguments": {
+            "$ref": "#/components/schemas/JsonNode"
+          }
+        }
+      },
+      "ChatMessage": {
+        "type": "object",
+        "discriminator": {
+          "propertyName": "role"
+        },
+        "properties": {
+          "textContent": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "role": {
+            "type": "string"
+          }
+        }
+      },
+      "ChatToolCall": {
+        "type": "object",
+        "properties": {
+          "index": {
+            "type": "integer",
+            "format": "int32",
+            "writeOnly": true
+          },
+          "id": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string"
+          },
+          "function": {
+            "$ref": "#/components/schemas/ChatFunctionCall"
+          }
+        }
+      },
+      "FunctionMessage": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/ChatMessage"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "content": {
+                "type": "string"
+              }
+            }
+          }
+        ]
+      },
+      "JsonNode": {
+        "type": "object"
+      },
+      "SystemMessage": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/ChatMessage"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "content": {
+                "type": "string"
+              }
+            }
+          }
+        ]
+      },
+      "ToolMessage": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/ChatMessage"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "content": {
+                "type": "string"
+              },
+              "tool_call_id": {
+                "type": "string"
+              }
+            }
+          }
+        ]
+      },
+      "UserMessage": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/ChatMessage"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "content": {}
+            }
+          }
+        ]
+      },
+      "CreateApiKeyRequest": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "active": {
+            "type": "boolean"
+          }
+        }
+      },
+      "WidgetObject": {
+        "type": "object",
+        "properties": {
+          "prompt": {
+            "type": "string"
+          }
+        }
+      },
+      "QANode": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "sourceId": {
+            "type": "string"
+          },
+          "nodeId": {
+            "type": "string"
+          },
+          "generatedDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "usedText": {
+            "type": "string"
+          },
+          "entries": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/QAEntry"
+            }
+          }
+        }
+      },
+      "ArgeBerufeNetResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string"
+          },
+          "description_short": {
+            "type": "string"
+          },
+          "profession_group": {
+            "type": "string"
+          },
+          "profession_type": {
+            "type": "string"
+          }
+        }
+      },
+      "ArgeBerufeNetResponsePage": {
+        "type": "object",
+        "properties": {
+          "content": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ArgeBerufeNetResponse"
+            }
+          },
+          "pageable": {
+            "$ref": "#/components/schemas/Pageablenull"
+          },
+          "last": {
+            "type": "boolean"
+          },
+          "totalElements": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "totalPages": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "first": {
+            "type": "boolean"
+          },
+          "size": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "number": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "sort": {
+            "$ref": "#/components/schemas/Sortnull"
+          },
+          "numberOfElements": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "empty": {
+            "type": "boolean"
+          }
+        }
+      },
+      "Pageablenull": {
+        "type": "object",
+        "properties": {
+          "paged": {
+            "type": "boolean"
+          },
+          "pageNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "unpaged": {
+            "type": "boolean"
+          },
+          "offset": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "sort": {
+            "$ref": "#/components/schemas/Sortnull"
+          }
+        }
+      },
+      "Sortnull": {
+        "type": "object",
+        "properties": {
+          "sorted": {
+            "type": "boolean"
+          },
+          "unsorted": {
+            "type": "boolean"
+          },
+          "empty": {
+            "type": "boolean"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "basicAuth": {
+        "type": "http",
+        "scheme": "basic"
+      },
+      "X-API-KEY": {
+        "type": "apiKey",
+        "name": "X-API-KEY",
+        "in": "header"
+      }
+    }
+  }
+}

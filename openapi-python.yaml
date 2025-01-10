@@ -1,0 +1,6 @@
+project_name_override: zapi
+content_type_overrides:
+  '*/*': text/plain
+post_hooks:
+  - "ruff check . --fix --ignore UP031"
+  - "ruff format ."
